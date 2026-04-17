@@ -6,19 +6,19 @@
 <title>Ontario Weather Dashboard</title>
 <style>
   :root {
-    --bg-start: #dbeafe;
-    --bg-end:   #f0f9ff;
-    --card:     #ffffff;
-    --text:     #0f172a;
-    --muted:    #64748b;
-    --accent:   #0284c7;
-    --accent-2: #0ea5e9;
-    --ok:       #16a34a;
-    --warn:     #d97706;
-    --alert:    #dc2626;
-    --border:   #e2e8f0;
-    --shadow:   0 1px 3px rgba(15,23,42,0.08), 0 4px 12px rgba(15,23,42,0.06);
-    --radius:   16px;
+    --bg-start:  #dbeafe;
+    --bg-end:    #f0f9ff;
+    --card:      #ffffff;
+    --text:      #0f172a;
+    --muted:     #64748b;
+    --accent:    #0284c7;
+    --accent-2:  #0ea5e9;
+    --ok:        #16a34a;
+    --warn:      #d97706;
+    --alert:     #dc2626;
+    --border:    #e2e8f0;
+    --shadow:    0 1px 3px rgba(15,23,42,.08), 0 4px 12px rgba(15,23,42,.06);
+    --radius:    16px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,15 +28,10 @@
     color: var(--text);
     min-height: 100vh;
     padding: 24px;
-    transition: padding 0.3s;
   }
+  .container { max-width: 1200px; margin: 0 auto; }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    transition: max-width 0.3s;
-  }
-
+  /* ── HEADER ─────────────────────────────────────────────── */
   header {
     display: flex;
     justify-content: space-between;
@@ -45,42 +40,26 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -.02em; }
   h1 .flag { font-size: 1.5rem; margin-right: 6px; }
-
-  .header-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  #updated { font-size: 0.82rem; color: var(--muted); }
+  .header-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  #updated { font-size: .82rem; color: var(--muted); }
 
   .btn {
-    border: none;
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 0.82rem;
-    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    border: none; padding: 8px 16px; border-radius: 10px;
+    font-weight: 600; cursor: pointer; font-size: .82rem;
+    transition: transform .15s, box-shadow .15s, opacity .15s;
   }
   #refreshBtn {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: #fff;
-    box-shadow: 0 2px 6px rgba(2,132,199,0.3);
+    color: #fff; box-shadow: 0 2px 6px rgba(2,132,199,.3);
   }
-  #refreshBtn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(2,132,199,0.4); }
-  #refreshBtn:disabled { opacity: 0.55; cursor: wait; }
-
-  #layoutBtn {
-    background: #f1f5f9;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
+  #refreshBtn:hover  { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(2,132,199,.4); }
+  #refreshBtn:disabled { opacity: .55; cursor: wait; }
+  #layoutBtn { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
   #layoutBtn:hover { background: #e2e8f0; }
 
-  /* GRID – DESKTOP */
+  /* ── MAIN GRID ───────────────────────────────────────────── */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -88,132 +67,255 @@
     margin-bottom: 20px;
   }
 
-  /* REGULAR CARD */
+  /* ── REGULAR CARD ────────────────────────────────────────── */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
     box-shadow: var(--shadow);
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform .15s, box-shadow .15s;
+    cursor: pointer;
+    position: relative;
   }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(15,23,42,0.1); }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(15,23,42,.12);
+  }
+  .card-tap-hint {
+    position: absolute; bottom: 10px; right: 12px;
+    font-size: .68rem; color: var(--accent); opacity: .7;
+    font-weight: 600;
+  }
   .card-name {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 14px;
+    font-size: .75rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px;
   }
   .card-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 10px;
   }
   .card-icon { font-size: 2.8rem; line-height: 1; }
-  .card-temp { font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; }
-  .card-cond { font-size: 0.92rem; font-weight: 500; margin-bottom: 8px; }
-  .card-wind { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+  .card-temp { font-size: 2.25rem; font-weight: 800; letter-spacing: -.02em; }
+  .card-cond { font-size: .92rem; font-weight: 500; margin-bottom: 8px; }
+  .card-wind { font-size: .82rem; color: var(--muted); font-weight: 500; }
 
-  /* KIRKLAND LAKE WIND WATCH */
+  /* ── KIRKLAND LAKE CARD ──────────────────────────────────── */
   .kl-card {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, #ffffff, #f0f9ff);
+    background: linear-gradient(135deg, #fff, #f0f9ff);
     border: 2px solid var(--accent);
     padding: 24px;
-    box-shadow: 0 4px 16px rgba(2,132,199,0.15);
+    box-shadow: 0 4px 16px rgba(2,132,199,.15);
   }
   .kl-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 8px;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
   }
-  .kl-title { font-size: 1rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
-
+  .kl-title { font-size: 1rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
   .status-badge {
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    padding: 6px 14px; border-radius: 999px;
+    font-weight: 700; font-size: .75rem;
+    text-transform: uppercase; letter-spacing: .05em;
   }
   .status-ok    { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
   .status-warn  { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
   .status-alert { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; animation: pulse 2s infinite; }
-  @keyframes pulse { 50% { opacity: 0.72; } }
-
-  .kl-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 12px;
-  }
-  .kl-stat {
-    background: #fff;
-    padding: 14px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-  }
-  .kl-stat-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  @keyframes pulse { 50% { opacity: .72; } }
+  .kl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .kl-stat { background: #fff; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); }
+  .kl-stat-label { font-size: .7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
   .kl-stat-value { font-size: 1.3rem; font-weight: 800; }
-  .kl-stat-sub   { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+  .kl-stat-sub   { font-size: .72rem; color: var(--muted); margin-top: 3px; }
 
-  /* ── PHONE MODE (Samsung Z Fold4 – folded ~390px, unfolded ~768px) ── */
-  body.phone-mode {
-    padding: 10px;
-  }
-  body.phone-mode .container {
-    max-width: 430px;   /* targets folded Z Fold4; scales up nicely when unfolded */
-  }
+  /* ── PHONE MODE ──────────────────────────────────────────── */
+  body.phone-mode { padding: 10px; }
+  body.phone-mode .container { max-width: 430px; }
   body.phone-mode h1 { font-size: 1.1rem; }
-  body.phone-mode #updated { font-size: 0.75rem; }
-  body.phone-mode .btn { padding: 7px 12px; font-size: 0.78rem; }
-
-  body.phone-mode .grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-  }
+  body.phone-mode #updated { font-size: .75rem; }
+  body.phone-mode .btn { padding: 7px 12px; font-size: .78rem; }
+  body.phone-mode .grid { grid-template-columns: 1fr 1fr; gap: 9px; }
   body.phone-mode .card { padding: 12px; border-radius: 14px; }
-  body.phone-mode .card-name { font-size: 0.65rem; margin-bottom: 9px; }
+  body.phone-mode .card-name { font-size: .65rem; margin-bottom: 9px; }
   body.phone-mode .card-icon { font-size: 1.9rem; }
   body.phone-mode .card-temp { font-size: 1.55rem; }
-  body.phone-mode .card-cond { font-size: 0.78rem; }
-  body.phone-mode .card-wind { font-size: 0.72rem; }
-
+  body.phone-mode .card-cond { font-size: .78rem; }
+  body.phone-mode .card-wind { font-size: .72rem; }
   body.phone-mode .kl-card  { padding: 14px; }
-  body.phone-mode .kl-title { font-size: 0.8rem; }
+  body.phone-mode .kl-title { font-size: .8rem; }
   body.phone-mode .kl-grid  { grid-template-columns: 1fr 1fr; gap: 8px; }
   body.phone-mode .kl-stat  { padding: 10px 12px; border-radius: 10px; }
-  body.phone-mode .kl-stat-value { font-size: 0.98rem; }
-  body.phone-mode .kl-stat-sub   { font-size: 0.67rem; }
+  body.phone-mode .kl-stat-value { font-size: .98rem; }
+  body.phone-mode .kl-stat-sub   { font-size: .67rem; }
 
+  /* ── BOTTOM SHEET BACKDROP ───────────────────────────────── */
+  .sheet-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,.45);
+    backdrop-filter: blur(2px);
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: all; }
+
+  /* ── BOTTOM SHEET ────────────────────────────────────────── */
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 100%; max-width: 680px;
+    max-height: 88vh;
+    background: #fff;
+    border-radius: 22px 22px 0 0;
+    z-index: 101;
+    display: flex; flex-direction: column;
+    transition: transform .38s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -8px 40px rgba(15,23,42,.18);
+  }
+  .bottom-sheet.open { transform: translateX(-50%) translateY(0); }
+
+  .sheet-handle-row {
+    display: flex; justify-content: center;
+    padding: 10px 0 4px; flex-shrink: 0;
+  }
+  .sheet-handle {
+    width: 44px; height: 5px;
+    background: #e2e8f0; border-radius: 3px;
+  }
+
+  .sheet-header {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 8px 22px 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .sheet-city { font-size: 1.15rem; font-weight: 800; }
+  .sheet-subtitle { font-size: .78rem; color: var(--muted); margin-top: 1px; }
+  .sheet-close {
+    background: #f1f5f9; border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 1.1rem; cursor: pointer; color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .sheet-close:hover { background: #e2e8f0; }
+
+  .sheet-body {
+    overflow-y: auto;
+    padding: 8px 0 24px;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── FORECAST ROW ────────────────────────────────────────── */
+  .fc-row {
+    display: grid;
+    grid-template-columns: 68px 38px 1fr 160px 52px;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .12s;
+  }
+  .fc-row:last-child { border-bottom: none; }
+  .fc-row:hover { background: #f8fafc; }
+
+  /* Day column */
+  .fc-daycol { line-height: 1.3; }
+  .fc-dayname { display: block; font-size: .88rem; font-weight: 700; }
+  .fc-date    { display: block; font-size: .72rem; color: var(--muted); }
+
+  /* Icon column */
+  .fc-iconcol { font-size: 1.65rem; text-align: center; }
+
+  /* Condition + precip bar */
+  .fc-condcol { min-width: 0; }
+  .fc-condlabel { font-size: .8rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .fc-precip-row { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
+  .fc-precip-pct { font-size: .7rem; color: #3b82f6; font-weight: 600; white-space: nowrap; }
+  .fc-precip-track {
+    flex: 1; height: 4px; background: #dbeafe;
+    border-radius: 2px; overflow: hidden;
+  }
+  .fc-precip-fill { height: 100%; background: #3b82f6; border-radius: 2px; }
+
+  /* Temp bar column */
+  .fc-tempcol {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .fc-lo, .fc-hi {
+    font-size: .78rem; font-weight: 700;
+    white-space: nowrap; min-width: 30px;
+  }
+  .fc-lo { text-align: right; color: var(--muted); }
+  .fc-hi { text-align: left; color: var(--text); }
+  .fc-bar-track {
+    flex: 1; height: 7px;
+    background: #f1f5f9; border-radius: 4px;
+    position: relative; overflow: hidden;
+  }
+  .fc-bar-fill {
+    position: absolute; top: 0; height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 4px;
+    min-width: 6px;
+  }
+
+  /* Wind column */
+  .fc-windcol {
+    font-size: .72rem; font-weight: 700;
+    text-align: right; white-space: nowrap;
+  }
+
+  /* ── PHONE MODE – sheet adjustments ─────────────────────── */
+  @media (max-width: 480px) {
+    .fc-row {
+      grid-template-columns: 58px 32px 1fr 130px 44px;
+      gap: 5px; padding: 10px 14px;
+    }
+    .fc-iconcol { font-size: 1.4rem; }
+    .fc-dayname { font-size: .8rem; }
+    .fc-condlabel { font-size: .72rem; }
+    .fc-lo, .fc-hi { font-size: .7rem; min-width: 24px; }
+    .sheet-city { font-size: 1rem; }
+    .sheet-header { padding: 8px 14px 10px; }
+  }
+
+  /* ── FOOTER ──────────────────────────────────────────────── */
   footer {
-    text-align: center;
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+    text-align: center; font-size: .78rem; color: var(--muted);
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
   }
   footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
-
-  .loading { color: var(--muted); font-style: italic; font-size: 0.9rem; }
+  .loading { color: var(--muted); font-style: italic; font-size: .9rem; }
   .error-card {
-    grid-column: 1 / -1;
-    color: var(--alert);
-    background: #fff5f5;
-    border-color: #fca5a5;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    grid-column: 1/-1; color: var(--alert);
+    background: #fff5f5; border-color: #fca5a5;
+    font-size: .9rem; line-height: 1.6;
   }
 </style>
 </head>
 <body>
+
+<!-- BACKDROP -->
+<div class="sheet-backdrop" id="backdrop" onclick="closeSheet()"></div>
+
+<!-- BOTTOM SHEET -->
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="sheet-handle-row"><div class="sheet-handle"></div></div>
+  <div class="sheet-header">
+    <div>
+      <div class="sheet-city" id="sheetCity">City</div>
+      <div class="sheet-subtitle">7-Day Forecast</div>
+    </div>
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</div>
+
+<!-- MAIN APP -->
 <div class="container">
   <header>
     <h1><span class="flag">🍁</span>Ontario Weather</h1>
@@ -223,16 +325,14 @@
       <button class="btn" id="refreshBtn" onclick="loadAll()">⟳ Refresh</button>
     </div>
   </header>
-
   <div class="grid" id="grid"></div>
-
   <footer>
-    Data: <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> (aggregates ECCC &amp; global models) · Wind km/h · Temp °C · Auto-refreshes every 15 min
+    Data: <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> (aggregates ECCC &amp; global models) · Wind km/h · Temp °C · Tap any city for 7-day forecast
   </footer>
 </div>
 
 <script>
-// Kirkland Lake is LAST so Wind Watch panel always renders at the bottom
+// Kirkland Lake last → Wind Watch panel stays at bottom
 const LOCATIONS = [
   { name: "Mississauga",   lat: 43.5890, lon: -79.6441 },
   { name: "Oshawa",        lat: 43.8971, lon: -78.8658 },
@@ -247,7 +347,10 @@ const LOCATIONS = [
 const STORM_THRESHOLD = 50;
 const SUSTAINED_HOURS = 3;
 
-// Layout toggle
+// Store fetched data keyed by location name
+const dataStore = {};
+
+// ── LAYOUT TOGGLE ──────────────────────────────────────────
 let phoneMode = false;
 function toggleLayout() {
   phoneMode = !phoneMode;
@@ -255,45 +358,42 @@ function toggleLayout() {
   document.getElementById("layoutBtn").textContent = phoneMode ? "🖥️ Desktop View" : "📱 Phone View";
 }
 
+// ── WMO CODES ──────────────────────────────────────────────
 function codeInfo(c) {
   const m = {
-    0:  ["☀️","Sunny"],         1:  ["🌤️","Mainly Clear"],
-    2:  ["⛅","Partly Cloudy"], 3:  ["☁️","Overcast"],
-    45: ["🌫️","Fog"],           48: ["🌫️","Freezing Fog"],
-    51: ["🌦️","Light Drizzle"], 53: ["🌦️","Drizzle"],      55: ["🌦️","Heavy Drizzle"],
-    56: ["🌧️","Frz Drizzle"],   57: ["🌧️","Frz Drizzle"],
-    61: ["🌧️","Light Rain"],    63: ["🌧️","Rain"],          65: ["🌧️","Heavy Rain"],
-    66: ["🌧️","Freezing Rain"], 67: ["🌧️","Freezing Rain"],
-    71: ["🌨️","Light Snow"],    73: ["🌨️","Snow"],          75: ["❄️","Heavy Snow"],
-    77: ["❄️","Snow Grains"],
-    80: ["🌦️","Rain Showers"],  81: ["🌧️","Rain Showers"],  82: ["⛈️","Heavy Showers"],
-    85: ["🌨️","Snow Showers"],  86: ["❄️","Heavy Snow Showers"],
-    95: ["⛈️","Thunderstorm"],  96: ["⛈️","Thunder/Hail"],  99: ["⛈️","Severe Thunder"],
+    0:["☀️","Sunny"],           1:["🌤️","Mainly Clear"],
+    2:["⛅","Partly Cloudy"],   3:["☁️","Overcast"],
+    45:["🌫️","Fog"],            48:["🌫️","Freezing Fog"],
+    51:["🌦️","Light Drizzle"],  53:["🌦️","Drizzle"],       55:["🌦️","Heavy Drizzle"],
+    56:["🌧️","Frz Drizzle"],    57:["🌧️","Frz Drizzle"],
+    61:["🌧️","Light Rain"],     63:["🌧️","Rain"],           65:["🌧️","Heavy Rain"],
+    66:["🌧️","Freezing Rain"],  67:["🌧️","Freezing Rain"],
+    71:["🌨️","Light Snow"],     73:["🌨️","Snow"],           75:["❄️","Heavy Snow"],
+    77:["❄️","Snow Grains"],
+    80:["🌦️","Rain Showers"],   81:["🌧️","Rain Showers"],  82:["⛈️","Heavy Showers"],
+    85:["🌨️","Snow Showers"],   86:["❄️","Heavy Snow Shwrs"],
+    95:["⛈️","Thunderstorm"],   96:["⛈️","Thunder/Hail"],  99:["⛈️","Severe Thunder"],
   };
   return m[c] || ["❓","Unknown"];
 }
 
-async function fetchCurrent(loc) {
-  const r = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
+// ── FETCH ──────────────────────────────────────────────────
+async function fetchLocation(loc) {
+  const base = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
     + `&current=temperature_2m,weather_code,wind_speed_10m`
-    + `&wind_speed_unit=kmh&temperature_unit=celsius&timezone=America/Toronto`
-  );
+    + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max`
+    + `&forecast_days=7`
+    + `&wind_speed_unit=kmh&temperature_unit=celsius&timezone=America/Toronto`;
+  // Kirkland Lake also needs hourly for the 24/48h wind analysis
+  const url = loc.featured
+    ? base + `&hourly=wind_speed_10m`
+    : base;
+  const r = await fetch(url);
   if (!r.ok) throw new Error("API error");
   return r.json();
 }
 
-async function fetchKirkland(loc) {
-  const r = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
-    + `&current=temperature_2m,weather_code,wind_speed_10m`
-    + `&hourly=wind_speed_10m&forecast_days=3`
-    + `&wind_speed_unit=kmh&temperature_unit=celsius&timezone=America/Toronto`
-  );
-  if (!r.ok) throw new Error("API error");
-  return r.json();
-}
-
+// ── WIND ANALYSIS (Kirkland Lake hourly) ───────────────────
 function analyzeWind(times, speeds, startH, endH) {
   const now = new Date();
   const sel = [];
@@ -309,38 +409,40 @@ function analyzeWind(times, speeds, startH, endH) {
   return { min, max, avg, storm };
 }
 
-function renderCard(loc, data) {
+// ── RENDER REGULAR CARD ────────────────────────────────────
+function renderCard(loc, data, idx) {
   const [icon, label] = codeInfo(data.current.weather_code);
   const temp = Math.round(data.current.temperature_2m);
   const wind = Math.round(data.current.wind_speed_10m);
-  return `<div class="card">
+  return `<div class="card" onclick="openSheet('${loc.name}')">
     <div class="card-name">${loc.name}</div>
-    <div class="card-main"><div class="card-icon">${icon}</div><div class="card-temp">${temp}°</div></div>
+    <div class="card-main">
+      <div class="card-icon">${icon}</div>
+      <div class="card-temp">${temp}°</div>
+    </div>
     <div class="card-cond">${label}</div>
     <div class="card-wind">💨 ${wind} km/h</div>
+    <div class="card-tap-hint">7-day →</div>
   </div>`;
 }
 
-function renderKirkland(loc, data) {
+// ── RENDER KIRKLAND LAKE CARD ──────────────────────────────
+function renderKirklandCard(loc, data) {
   const [icon, label] = codeInfo(data.current.weather_code);
   const temp = Math.round(data.current.temperature_2m);
   const wind = Math.round(data.current.wind_speed_10m);
   const w24  = analyzeWind(data.hourly.time, data.hourly.wind_speed_10m, 0, 24);
   const w48  = analyzeWind(data.hourly.time, data.hourly.wind_speed_10m, 24, 48);
-
   const breach = w24?.storm || w48?.storm;
   const watch  = !breach && (w24?.max > 40 || w48?.max > 40);
-
-  const badge = breach
+  const badge  = breach
     ? `<span class="status-badge status-alert">⚠ Storm Mode</span>`
     : watch
       ? `<span class="status-badge status-warn">⚡ Watch</span>`
       : `<span class="status-badge status-ok">✓ Normal</span>`;
-
   const fmt = w => w ? `${Math.round(w.min)}–${Math.round(w.max)} km/h` : "—";
   const sub = w => w ? `avg ${Math.round(w.avg)} km/h` : "";
-
-  return `<div class="card kl-card">
+  return `<div class="card kl-card" onclick="openSheet('${loc.name}')" style="cursor:pointer">
     <div class="kl-header">
       <div class="kl-title">🎯 Kirkland Lake — Wind Watch</div>
       ${badge}
@@ -364,36 +466,117 @@ function renderKirkland(loc, data) {
       <div class="kl-stat">
         <div class="kl-stat-label">Storm Threshold</div>
         <div class="kl-stat-value">&gt; ${STORM_THRESHOLD} km/h</div>
-        <div class="kl-stat-sub">sustained ${SUSTAINED_HOURS}h+</div>
+        <div class="kl-stat-sub">sustained ${SUSTAINED_HOURS}h+ · Tap for 7-day</div>
       </div>
     </div>
   </div>`;
 }
 
+// ── RENDER 7-DAY SHEET CONTENT ─────────────────────────────
+function renderForecastRows(data) {
+  const d = data.daily;
+  const n = d.time.length;
+
+  // Normalise bar to week's overall min/max
+  const weekMin = Math.min(...d.temperature_2m_min);
+  const weekMax = Math.max(...d.temperature_2m_max);
+  const weekSpan = Math.max(weekMax - weekMin, 1);
+
+  return Array.from({length: n}, (_, i) => {
+    const date     = new Date(d.time[i] + 'T12:00:00');
+    const isToday  = i === 0;
+    const dayName  = isToday ? 'Today' : date.toLocaleDateString('en-CA', {weekday: 'short'});
+    const dateStr  = date.toLocaleDateString('en-CA', {month: 'short', day: 'numeric'});
+    const [icon, label] = codeInfo(d.weather_code[i]);
+    const low    = Math.round(d.temperature_2m_min[i]);
+    const high   = Math.round(d.temperature_2m_max[i]);
+    const precip = Math.round(d.precipitation_probability_max[i] ?? 0);
+    const wind   = Math.round(d.wind_speed_10m_max[i]);
+
+    // Bar position within the week's range
+    const barLeft  = ((low  - weekMin) / weekSpan * 100).toFixed(1);
+    const barWidth = Math.max((high - low) / weekSpan * 100, 3).toFixed(1);
+
+    // Wind colour: grey → amber → red
+    const windCol = wind >= STORM_THRESHOLD ? 'color:var(--alert);font-weight:800'
+                  : wind >= 40              ? 'color:var(--warn);font-weight:700'
+                  :                          'color:var(--muted)';
+
+    return `<div class="fc-row">
+      <div class="fc-daycol">
+        <span class="fc-dayname">${dayName}</span>
+        <span class="fc-date">${dateStr}</span>
+      </div>
+      <div class="fc-iconcol">${icon}</div>
+      <div class="fc-condcol">
+        <span class="fc-condlabel">${label}</span>
+        <div class="fc-precip-row">
+          <span class="fc-precip-pct">💧 ${precip}%</span>
+          <div class="fc-precip-track">
+            <div class="fc-precip-fill" style="width:${precip}%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-tempcol">
+        <span class="fc-lo">${low}°</span>
+        <div class="fc-bar-track">
+          <div class="fc-bar-fill" style="left:${barLeft}%;width:${barWidth}%"></div>
+        </div>
+        <span class="fc-hi">${high}°</span>
+      </div>
+      <div class="fc-windcol" style="${windCol}">
+        💨 ${wind}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SHEET OPEN / CLOSE ──────────────────────────────────────
+function openSheet(cityName) {
+  const entry = dataStore[cityName];
+  if (!entry) return;
+  document.getElementById('sheetCity').textContent = cityName;
+  document.getElementById('sheetBody').innerHTML = renderForecastRows(entry);
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('bottomSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('bottomSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// ── LOAD ALL ───────────────────────────────────────────────
 async function loadAll() {
-  const grid = document.getElementById("grid");
-  const btn  = document.getElementById("refreshBtn");
-  const upd  = document.getElementById("updated");
+  const grid = document.getElementById('grid');
+  const btn  = document.getElementById('refreshBtn');
+  const upd  = document.getElementById('updated');
   btn.disabled = true;
-  upd.textContent = "Fetching…";
+  upd.textContent = 'Fetching…';
   grid.innerHTML = LOCATIONS.map(l =>
-    `<div class="card${l.featured?' kl-card':''}"><div class="card-name">${l.name}</div><div class="loading">Loading…</div></div>`
-  ).join("");
+    `<div class="card${l.featured?' kl-card':''}">
+       <div class="card-name">${l.name}</div>
+       <div class="loading">Loading…</div>
+     </div>`
+  ).join('');
 
   try {
-    const results = await Promise.all(
-      LOCATIONS.map(l => l.featured ? fetchKirkland(l) : fetchCurrent(l))
-    );
-    grid.innerHTML = LOCATIONS.map((l,i) =>
-      l.featured ? renderKirkland(l, results[i]) : renderCard(l, results[i])
-    ).join("");
-    upd.textContent = "Updated " + new Date().toLocaleTimeString("en-CA", {hour:"2-digit", minute:"2-digit"});
+    const results = await Promise.all(LOCATIONS.map(l => fetchLocation(l)));
+    // Store data for sheet access
+    LOCATIONS.forEach((l, i) => { dataStore[l.name] = results[i]; });
+    grid.innerHTML = LOCATIONS.map((l, i) =>
+      l.featured ? renderKirklandCard(l, results[i]) : renderCard(l, results[i])
+    ).join('');
+    upd.textContent = 'Updated ' + new Date().toLocaleTimeString('en-CA', {hour:'2-digit', minute:'2-digit'});
   } catch(e) {
     grid.innerHTML = `<div class="card error-card">
       <strong>Could not load weather data.</strong><br>
-      Open this file directly in Chrome, Edge, or Safari — the Cowork preview blocks external requests.
+      Open this file directly in Chrome, Edge, or Safari — the Cowork preview pane blocks external requests.
     </div>`;
-    upd.textContent = "Error";
+    upd.textContent = 'Error';
   } finally {
     btn.disabled = false;
   }
